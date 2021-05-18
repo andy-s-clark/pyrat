@@ -1,0 +1,10 @@
+*.pyc
+*.swp
+.idea/
+*.iml
+*.ipr
+*.iws
+config.yaml
+.vscode/
+venv/
+
