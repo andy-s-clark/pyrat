@@ -20,7 +20,9 @@
 
 ## Run locally
 
-    uvicorn app.main:app --reload
+    cd app
+    export GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE
+    uvicorn main:app --reload
 
 ### Swagger Docs
 http://127.0.0.1:8000/docs
@@ -28,4 +30,6 @@ http://127.0.0.1:8000/docs
 ## Docker
 
     docker build -t pyrat .
-    docker run -it --name pyrat --rm -p 8000:8000 pyrat
+    docker run -it --name pyrat --rm -p 8000:8000 \
+      -e GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE \
+      pyrat

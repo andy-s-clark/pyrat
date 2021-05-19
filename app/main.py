@@ -1,19 +1,17 @@
-from typing import Optional
+from configuration import Configuration
 from fastapi import FastAPI
+from tag import Tag
 
 app = FastAPI()
+config = Configuration()
 
 
 @app.get("/healthz")
-async def read_health():
+def read_health():
     return {"status": "OK"}
 
 
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+@app.get("/tag/{tag_id}")
+def read_item(tag_id: str):
+    tag = Tag(config.read_item("github_api_token"), tag_id)
+    return tag.display()

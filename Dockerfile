@@ -15,6 +15,7 @@ WORKDIR /opt/app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+ENV GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE
 COPY ./app .
 
 EXPOSE 8000
