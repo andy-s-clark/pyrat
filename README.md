@@ -20,16 +20,16 @@
 
 ## Run locally
 
-    cd app
+    source env/bin/activate
     export GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE
-    uvicorn main:app --reload
+    python app.py
 
 ### Swagger Docs
-http://127.0.0.1:8000/docs
+http://localhost:5000/docs
 
 ## Docker
 
     docker build -t pyrat .
-    docker run -it --name pyrat --rm -p 8000:8000 \
+    docker run -it --name pyrat --rm -p 5000:5000 \
       -e GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE \
       pyrat

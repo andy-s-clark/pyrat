@@ -16,7 +16,17 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 ENV GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE
-COPY ./app .
+COPY config ./config
+COPY github_compare ./github_compare
+COPY app.py .
 
-EXPOSE 8000
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+EXPOSE 5000
+CMD ["gunicorn", \
+    "--worker-class", "gevent", \
+    "--workers", "8", \
+    "--bind", "0.0.0.0:5000", \
+    "app:app", \
+    "--max-requests", "1000", \
+    "--timeout", "5", \
+    "--keep-alive", "5", \
+    "--log-level", "info"]

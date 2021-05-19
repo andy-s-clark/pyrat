@@ -6,3 +6,7 @@
 *.iws
 .vscode/
 venv/
+*.md
+.dockerignore
+.gitignore
+.git/
