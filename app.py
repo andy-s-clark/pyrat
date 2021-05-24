@@ -6,7 +6,10 @@ from github_compare import GithubCompare
 
 
 app = FastAPI()
-config = Config()
+config = Config({
+    "auth_token": None,
+    "github_access_token": None
+})
 github_compare = GithubCompare(config.github_access_token)
 
 

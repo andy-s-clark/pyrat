@@ -2,12 +2,8 @@ from os import environ
 
 
 class Config:
-    def __init__(self):
+    def __init__(self, env_config_items):
         self._config = {}
-        env_config_items = {
-            "auth_token": None,
-            "github_access_token": None
-        }
         for name, default in env_config_items.items():
             self._config[name] = environ.get(name.upper(), default)
 
