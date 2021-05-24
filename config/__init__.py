@@ -5,6 +5,7 @@ class Config:
     def __init__(self):
         self._config = {}
         env_config_items = {
+            "auth_token": None,
             "github_access_token": None
         }
         for name, default in env_config_items.items():

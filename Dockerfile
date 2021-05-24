@@ -14,19 +14,13 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 WORKDIR /opt/app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 ENV GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE
 COPY config ./config
 COPY github_compare ./github_compare
 COPY app.py .
 
-EXPOSE 5000
-CMD ["gunicorn", \
-    "--worker-class", "gevent", \
-    "--workers", "1", \
-    "--bind", "0.0.0.0:5000", \
-    "app:app", \
-    "--max-requests", "1000", \
-    "--timeout", "5", \
-    "--keep-alive", "5", \
-    "--log-level", "info"]
+ENV PORT=8000
+EXPOSE $PORT
+CMD uvicorn app:app --host 0.0.0.0 --port ${PORT}

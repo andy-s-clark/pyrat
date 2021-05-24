@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
-from flask import Flask
+from fastapi import FastAPI
+import uvicorn
 from config import Config
 from github_compare import GithubCompare
 
 
-app = Flask(__name__)
+app = FastAPI()
 config = Config()
 github_compare = GithubCompare(config.github_access_token)
 
 
-@app.route("/healthz")
+@app.get("/healthz")
 def health():
     return {"status": "OK"}
 
 
-@app.route("/<string:owner>/<string:repo>/<string:base>/<string:head>/compare")
-def compare_messages(owner: str, repo: str, base: str, head: str):
+@app.get("/{owner}/{repo}/{base}/{head}/compare")
+def compare_commit_messages(owner: str, repo: str, base: str, head: str):
     return github_compare.get_commit_messages(owner, repo, base, head)
 
 
 if __name__ == "__main__":
-    app.run()
+    uvicorn.run("app:app", port=8000, reload=True, debug=True, workers=1)
