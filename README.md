@@ -24,12 +24,17 @@
     export GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE
     python app.py
 
-### Swagger Docs
-http://localhost:5000/docs
-
 ## Docker
 
     docker build -t pyrat .
     docker run -it --name pyrat --rm -p 5000:5000 \
       -e GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE \
       pyrat
+
+## Usage
+
+### List commit messages between two commits or tags
+
+`owner`/`repo`/`base`/`head`/compare
+
+ex. http://localhost:5000/andy-s-clark/pyrat/fd15f34/main/compare
