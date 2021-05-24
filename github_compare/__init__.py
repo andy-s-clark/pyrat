@@ -4,7 +4,7 @@ from ghapi.core import GhApi
 
 
 class GithubCompare:
-    def __init__(self, github_access_token: typing.Optional[str]=None):
+    def __init__(self, github_access_token: typing.Optional[str] = None):
         self._api = GhApi(token=github_access_token)
 
     def get_commit_messages(self, owner: str, repo: str, base: str, head: str):

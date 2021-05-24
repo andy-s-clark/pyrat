@@ -21,7 +21,7 @@
 ## Run locally
 
     source env/bin/activate
-    export AUTH_TOKEN=SOME_SECRET_TEXT_HERE
+    export API_KEY=SOME_SECRET_TEXT_HERE
     export GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE
     python app.py
 
@@ -29,7 +29,7 @@
 
     docker build -t pyrat .
     docker run -it --name pyrat --rm -p 8000:8000 \
-      -e AUTH_TOKEN=SOME_SECRET_TEXT_HERE \
+      -e API_KEY=SOME_SECRET_TEXT_HERE \
       -e GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE \
       pyrat
 
@@ -37,12 +37,11 @@
 
 ### Authentication
 
-The optional `auth_token` query argument can provide minimal authentication. If `AUTH_TOKEN` is not set at runtime,
-it won't be required for requests.
+The optional `api_key` query argument can provide minimal authentication.
 
 ### Swagger Docs
 
-http://localhost:8000/docs
+http://localhost:8000/docs?api_token=SOME_SECRET_TEXT_HERE
 
 ### List commit messages between two commits or tags
 

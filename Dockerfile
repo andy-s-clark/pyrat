@@ -16,6 +16,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+ENV API_KEY=SOME_SECRET_TEXT_HERE
 ENV GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE
 COPY config ./config
 COPY github_compare ./github_compare
