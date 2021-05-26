@@ -37,7 +37,12 @@
 
 ### Authentication
 
-The optional `api_key` query argument can provide minimal authentication.
+The `api_key` cookie, header, and/or query argument provides minimal authentication.
+
+### Health
+The health check does not require authentication.
+
+http://localhost:8000/healthz
 
 ### Swagger Docs
 
@@ -47,4 +52,4 @@ http://localhost:8000/docs?api_token=SOME_SECRET_TEXT_HERE
 
 `owner`/`repo`/`base`/`head`/compare
 
-ex. http://localhost:8000/andy-s-clark/pyrat/fd15f34/main/compare?auth_token=abc1234
+ex. http://localhost:8000/andy-s-clark/pyrat/fd15f34/main/compare?auth_token=SOME_SECRET_TEXT_HERE
