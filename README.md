@@ -23,6 +23,9 @@
     source env/bin/activate
     export API_KEY=SOME_SECRET_TEXT_HERE
     export GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE
+    export JIRA_API_TOKEN=YOUR_JIRA_API_TOKEN
+    export JIRA_URL=https://jira.atlassian.com
+    export JIRA_USERNAME=YOUR_JIRA_USERNAME
     python app.py
 
 ## Docker
@@ -31,6 +34,9 @@
     docker run -it --name pyrat --rm -p 8000:8000 \
       -e API_KEY=SOME_SECRET_TEXT_HERE \
       -e GITHUB_ACCESS_TOKEN=YOUR_PAT_HERE \
+      -e JIRA_API_TOKEN=YOUR_JIRA_API_TOKEN \
+      -e JIRA_URL=https://jira.atlassian.com \
+      -e JIRA_USERNAME=YOUR_JIRA_USERNAME \
       pyrat
 
 ## Usage
@@ -46,10 +52,10 @@ http://localhost:8000/healthz
 
 ### Swagger Docs
 
-http://localhost:8000/docs?api_token=SOME_SECRET_TEXT_HERE
+http://localhost:8000/docs?api_key=SOME_SECRET_TEXT_HERE
 
 ### List commit messages between two commits or tags
 
 `owner`/`repo`/`base`/`head`/compare
 
-ex. http://localhost:8000/andy-s-clark/pyrat/fd15f34/main/compare?auth_token=SOME_SECRET_TEXT_HERE
+ex. http://localhost:8000/andy-s-clark/pyrat/fd15f34/main/compare?api_key=SOME_SECRET_TEXT_HERE
