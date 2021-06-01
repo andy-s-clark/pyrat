@@ -1,6 +1,5 @@
 import re
 from typing import Set, Dict, Optional
-
 from ghapi.core import GhApi
 
 

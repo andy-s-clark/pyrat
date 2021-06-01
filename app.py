@@ -3,10 +3,11 @@ from fastapi import Security, Depends, FastAPI, HTTPException
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.utils import get_openapi
 from fastapi.security.api_key import APIKey, APIKeyCookie, APIKeyHeader, APIKeyQuery
+from fastcore.utils import HTTP404NotFoundError
 import logging
 from jira import JIRA, exceptions
 from typing import Dict
-from starlette.status import HTTP_403_FORBIDDEN
+from starlette.status import HTTP_403_FORBIDDEN, HTTP_404_NOT_FOUND
 from starlette.responses import JSONResponse
 import uvicorn
 
@@ -55,7 +56,12 @@ async def get_health():
 async def get_compare_commit_messages(owner: str, repo: str, base: str, head: str,
                                       _: APIKey = Depends(get_api_key)):
     # LATER Use an executor for the ghapi call
-    return github_compare.get_commit_messages_issues(owner, repo, base, head)
+    try:
+        return github_compare.get_commit_messages_issues(owner, repo, base, head)
+    except HTTP404NotFoundError as ex:
+        raise HTTPException(
+            status_code=HTTP_404_NOT_FOUND, detail="{} {}".format(ex.url, ex.reason)
+        )
 
 
 # Allow using a GET for client simplicity
