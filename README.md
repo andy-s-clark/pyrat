@@ -43,7 +43,7 @@
 
 ### Authentication
 
-The `api_key` cookie, header, and/or query argument provides minimal authentication.
+The `api_key` cookie, header, and/or query arguments provide minimal authentication.
 
 ### Health
 The health check does not require authentication.
@@ -54,8 +54,12 @@ http://localhost:8000/healthz
 
 http://localhost:8000/docs?api_key=SOME_SECRET_TEXT_HERE
 
-### List commit messages between two commits or tags
+### List Jira issues from commit messages between two commits or tags
 
 `owner`/`repo`/`base`/`head`/compare
 
 ex. http://localhost:8000/andy-s-clark/pyrat/fd15f34/main/compare?api_key=SOME_SECRET_TEXT_HERE
+
+### Transition issues using commit messages between two commits or tags
+
+ex. http://localhost:8000/andy-s-clark/pyrat/fd15f34c034c31a744e83813146baf3cf467e3ca/main/transition/to%20do?api_key=SOME_SECRET_TEXT_HERE

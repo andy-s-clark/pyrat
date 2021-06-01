@@ -3,7 +3,9 @@ from fastapi import Security, Depends, FastAPI, HTTPException
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.utils import get_openapi
 from fastapi.security.api_key import APIKey, APIKeyCookie, APIKeyHeader, APIKeyQuery
-from jira import JIRA
+import logging
+from jira import JIRA, exceptions
+from typing import Dict
 from starlette.status import HTTP_403_FORBIDDEN
 from starlette.responses import JSONResponse
 import uvicorn
@@ -12,6 +14,7 @@ from config import Config
 from github_compare import GithubCompare
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
+logger = logging.getLogger()
 config = Config({
     "api_key": None,
     "github_access_token": None,
@@ -52,11 +55,33 @@ async def get_health():
 async def get_compare_commit_messages(owner: str, repo: str, base: str, head: str,
                                       _: APIKey = Depends(get_api_key)):
     # LATER Use an executor for the ghapi call
-    return github_compare.get_commit_messages(owner, repo, base, head)
+    return github_compare.get_commit_messages_issues(owner, repo, base, head)
+
+
+# Allow using a GET for client simplicity
+@app.put("/{owner}/{repo}/{base}/{head}/transition/{new_state}")
+@app.get("/{owner}/{repo}/{base}/{head}/transition/{new_state}")
+def transition_by_commit_comparison(owner: str, repo: str, base: str, head: str, new_state: str,
+                                    _: APIKey = Depends(get_api_key)) -> Dict[str, bool]:
+    attempted_issues: Dict[str, bool] = {}
+    # LATER Use async and executors for the ghapi and Jira calls
+    for issue_id in github_compare.get_commit_messages_issues(owner, repo, base, head):
+        attempted_issues[issue_id] = False
+        try:
+            logger.info("Attempting to transition {} to {}".format(issue_id, new_state))
+            issue = jira.issue(issue_id)
+            for transition in jira.transitions(issue):
+                if transition["name"].lower() == new_state.lower():
+                    jira.transition_issue(issue, transition["id"])
+                    attempted_issues[issue_id] = True
+                    break
+        except exceptions.JIRAError as ex:
+            logger.warning(ex)
+    return attempted_issues
 
 
 @app.get("/issue/{issue_id}/status")
-async def get_issue_status(issue_id: str, _: APIKey = Depends(get_api_key)):
+async def get_issue_status(issue_id: str, _: APIKey = Depends(get_api_key)) -> str:
     return str(jira.issue(issue_id).fields.status)
 
 
