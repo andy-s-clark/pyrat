@@ -62,4 +62,6 @@ ex. http://localhost:8000/andy-s-clark/pyrat/fd15f34/main/compare?api_key=SOME_S
 
 ### Transition issues using commit messages between two commits or tags
 
+`owner`/`repo`/`base`/`head`/transition/`new_state`
+
 ex. http://localhost:8000/andy-s-clark/pyrat/fd15f34c034c31a744e83813146baf3cf467e3ca/main/transition/to%20do?api_key=SOME_SECRET_TEXT_HERE
